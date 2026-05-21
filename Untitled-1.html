@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YusufSağlık | Yeni Nesil Hastane Bilgi Yönetim Sistemleri (HBYS)</title>
+    <style>
+        :root {
+            --primary: #0077b6;       /* Derin Mavi */
+            --secondary: #0096c7;     /* Parlak Mavi */
+            --accent: #00f5d4;        /* Vurgu - Neon Turkuaz / Mavi */
+            --dark: #070b12;          /* Ana Koyu Arka Plan (Siyahımsı Gece Mavisi) */
+            --dark-card: #0f172a;     /* Kartlar için biraz daha açık lacivert/siyah */
+            --light: #f8f9fa;         /* Açık renk metinler için */
+            --text: #e2e8f0;          /* Genel metin rengi */
+            --gray: #94a3b8;          /* İkincil metin rengi */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: var(--text);
+            background-color: var(--dark);
+            scroll-behavior: smooth;
+        }
+
+        /* Navigasyon Barı */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: rgba(7, 11, 18, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 119, 182, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 150, 199, 0.2);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Hero (Giriş) Alanı - Arka Plan Resimli */
+        .hero {
+            position: relative;
+            background-image: url('hast.jpg');
+            background-size: cover;
+            background-position: center top; /* Resim tam olarak en üstünden (tepesinden) başlar */
+            background-repeat: no-repeat;
+            padding: 200px 8%; /* Resmin aşağıya doğru daha çok açılması için alan genişletildi */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 550px; /* Dikey genişlik artırılarak resmin aşağı doğru akması sağlandı */
+        }
+
+        /* Mavi/Siyah degrade katman */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(7, 11, 18, 0.98) 0%, rgba(0, 119, 182, 0.75) 60%, rgba(7, 11, 18, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #e9ecef;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Modüller / Çözümler Alanı */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px 0;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: #ffffff;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 8% 60px 8%;
+        }
+
+        .module-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(0, 150, 199, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 150, 199, 0.25);
+            border-color: var(--secondary);
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .module-card h3 {
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .module-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Entegrasyon Tablosu Bölümü */
+        .integration-section {
+            background-color: rgba(15, 23, 42, 0.5);
+            padding: 60px 8% 80px 8%;
+            text-align: center;
+        }
+
+        .tech-table {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto 0 auto;
+            border-collapse: collapse;
+            background: var(--dark-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0, 150, 199, 0.15);
+        }
+
+        .tech-table th, .tech-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 150, 199, 0.1);
+        }
+
+        .tech-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .tech-table tr:nth-child(even) {
+            background-color: rgba(7, 11, 18, 0.4);
+        }
+
+        .tech-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Göstermelik İletişim Formu Alanı */
+        .contact-section {
+            padding: 60px 8% 80px 8%;
+            background-color: var(--dark);
+        }
+
+        .contact-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--dark-card);
+            border: 1px solid rgba(0, 150, 199, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 150, 199, 0.3);
+            background-color: rgba(7, 11, 18, 0.6);
+            color: white;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.4);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 119, 182, 0.4);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: #070b12;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 245, 212, 0.5);
+        }
+
+        /* Bilgi ve İletişim Bandı */
+        .info-bar {
+            background: linear-gradient(135deg, var(--dark-card) 0%, var(--primary) 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 8%;
+            border-top: 1px solid rgba(0, 150, 199, 0.2);
+        }
+
+        .info-bar p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        footer {
+            background-color: #03060a;
+            color: #64748b;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 150, 199, 0.1);
+        }
+
+        /* Mobil Uyum */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 15px; }
+            .hero { padding: 120px 5%; text-align: center; justify-content: center; min-height: 400px; }
+            .hero::before { background: rgba(7, 11, 18, 0.92); } 
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .contact-form-container { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sayfa Başı Çapası -->
+    <div id="ana-sayfa"></div>
+
+    <!-- Navigasyon -->
+    <nav>
+        <div class="logo"> Yusuf<span>Sağlık</span></div>
+        <ul class="nav-links">
+            <li><a href="#ana-sayfa">Ana Sayfa</a></li>
+            <li><a href="#moduller">Modüller</a></li>
+            <li><a href="#entegrasyon">Standartlar ve Entegrasyon</a></li>
+            <li><a href="#iletisim">İletişim</a></li>
+        </ul>
+    </nav>
+
+    <!-- Giriş (Hero) Alanı -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Geleceğin Akıllı Hastane Yönetim Platformu</h1>
+            <p>HBYS, e-Reçete, PACS, Yapay Zeka ve Dijital Sağlık Sistemleri ile geleceği şekillendiriyoruz.</p>
+        </div>
+    </section>
+
+    <!-- Modüller Section -->
+    <section id="moduller">
+        <div class="section-title">
+            <h2>Uçtan Uca Entegre HBYS Modülleri</h2>
+            <p>Sorus, Sisoft ve global standartların en iyi pratikleriyle optimize edilmiş klinik deneyim.</p>
+        </div>
+
+        <div class="modules-grid">
+            <div class="module-card">
+                <div class="module-icon">🖥️</div>
+                <h3>%100 Tarayıcı Bağımsız HBYS</h3>
+                <p>Windows, macOS veya Linux fark etmeksizin; herhangi bir yerel kurulum gerektirmeden tüm güncel web tarayıcılarından güvenle çalışan mimari.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">📱</div>
+                <h3>Akıllı e-Order & Mobil</h3>
+                <p>Hekim ve hemşireler için ilaç, laboratuvar ve klinik süreçleri hatasız yöneten, e-imza destekli mobil klinik portalı.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">🩻</div>
+                <h3>Entegre PACS & DICOM</h3>
+                <p>Radyolojik görüntülerin (BT, MR, Röntgen) web üzerinden kayıpsız sıkıştırma teknolojisiyle anında izlenebilmesi ve güvenli arşivlenmesi.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">🤖</div>
+                <h3>Klinik Karar Destek Sistemi</h3>
+                <p>İlaç-besin etkileşimleri, alerji uyarıları ve mükerrer tetkik engelleme mekanizmalarıyla hasta güvenliğini en üst düzeye çıkaran yapay zeka altyapısı.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Entegrasyon ve Sağlık Teknolojileri Tablosu -->
+    <section id="entegrasyon" class="integration-section">
+        <div class="section-title">
+            <h2>Ulusal ve Uluslararası Entegrasyon Standartları</h2>
+            <p>Sistem mimarimiz, sağlık bilişiminin en katı küresel standartları ve ulusal ağlar ile gerçek zamanlı olarak haberleşir.</p>
+        </div>
+
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>Teknoloji / Protokol</th>
+                    <th>Kapsam ve Fonksiyon</th>
+                    <th>Uyum Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>HL7 / FHIR Standartları</strong></td>
+                    <td>Farklı medikal sistemler ve cihazlar arası güvenli tıbbi veri mesajlaşması.</td>
+                    <td>🟢 Tam Uyum</td>
+                </tr>
+                <tr>
+                    <td><strong>T.C. Sağlık Bakanlığı E-Nabız</strong></td>
+                    <td>Ulusal kişisel sağlık kaydı sistemine anlık veri gönderimi ve senkronizasyon.</td>
+                    <td>🟢 Sertifikalı Entegrasyon</td>
+                </tr>
+                <tr>
+                    <td><strong>İTS (İlaç Takip Sistemi)</strong></td>
+                    <td>Karekod tabanlı ilaç hareketleri, anlık stok düşümleri ve hastane eczane otomasyonu.</td>
+                    <td>🟢 Tam Uyum</td>
+                </tr>
+                <tr>
+                    <td><strong>DICOM 3.0</strong></td>
+                    <td>Radyoloji cihazları (modaliteler) ile PACS sunucuları arasında tıbbi görüntü transferi.</td>
+                    <td>🟢 Tam Uyum</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Göstermelik İletişim Formu Bölümü -->
+    <section id="iletisim" class="contact-section">
+        <div class="section-title">
+            <h2>Bizimle İletişime Geçin</h2>
+            <p>Kurumunuz için en uygun HBYS çözümlerini birlikte planlayalım.</p>
+        </div>
+        
+        <div class="contact-form-container">
+            <form id="demoForm" onsubmit="gonderBasarili(event)">
+                <div class="form-group">
+                    <label for="name">Adınız Soyadınız</label>
+                    <input type="text" id="name" placeholder="Örn. Yusuf Yılmaz" required>
+                </div>
+                <div class="form-group">
+                    <label for="hospital">Kurum / Hastane Adı</label>
+                    <input type="text" id="hospital" placeholder="Örn. Şehir Hastanesi" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-Posta Adresiniz</label>
+                    <input type="email" id="email" placeholder="isim@eposta.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mesajınız</label>
+                    <textarea id="message" rows="5" placeholder="Talebinizi buraya yazabilirsiniz..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Demo Talebi Gönder</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Bilgi Bandı -->
+    <section class="info-bar">
+        <p>YusufSağlık çözümleri; hastane yönetimini optimize etmek, verimliliği artırmak ve tıbbi hataları minimuma indirmek amacıyla modern yazılım mimarileriyle tasarlanmıştır.</p>
+    </section>
+
+    <footer>
+        <p>© 2026 yusufSağlık Teknoloji A.Ş. — Tüm Hakları Saklıdır. | Sisoft, Sarus ve Tiga ekosistemlerinden ilham alan Ürün Tanıtım Mimarisi.</p>
+    </footer>
+
+    <!-- Göstermelik Form Betiği -->
+    <script>
+        function gonderBasarili(event) {
+            event.preventDefault(); // Sayfa yenilenmesini engeller
+            alert("Harika! Demo talebiniz (göstermelik olarak) başarıyla alındı. YusufSağlık ekibi sizinle en kısa sürede iletişime geçmeyecektir çünkü bu bir demodur. :)");
+            document.getElementById("demoForm").reset(); // Formu temizler
+        }
+    </script>
+
+</body>
+</html>
